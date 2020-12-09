@@ -221,6 +221,7 @@ public class PhoneGlobals extends ContextWrapper {
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            int subId;
             PhoneConstants.State phoneState;
             if (VDBG) Log.v(LOG_TAG, "event=" + msg.what);
             switch (msg.what) {
@@ -308,13 +309,13 @@ public class PhoneGlobals extends ContextWrapper {
                     updateDataRoamingStatus();
                     break;
                 case EVENT_CARRIER_CONFIG_CHANGED:
-                    int subId = (Integer) msg.obj;
+                    subId = (Integer) msg.obj;
                     // The voicemail number could be overridden by carrier config, so need to
                     // refresh the message waiting (voicemail) indicator.
                     refreshMwiIndicator(subId);
                     break;
                 case EVENT_DATA_CONNECTION_ATTACHED:
-                    int subId = (Integer)((AsyncResult)msg.obj).userObj;
+                    subId = (Integer)((AsyncResult)msg.obj).userObj;
                     Phone phone = getPhone(subId);
                     if (phone != null) {
                         DataConnectionReasons reasons = new DataConnectionReasons();
